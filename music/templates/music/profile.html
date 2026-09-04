@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ user.username }} - Profile</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: white;
+            min-height: 100vh;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+
+            background: #000;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 35px;
+
+            gap: 35px;
+        }
+
+
+        .logo {
+            color: #1db954;
+
+            font-size: 26px;
+
+            font-weight: bold;
+        }
+
+
+        .nav-links {
+            display: flex;
+
+            gap: 25px;
+
+            align-items: center;
+        }
+
+
+        .nav-links a {
+            color: #b3b3b3;
+
+            text-decoration: none;
+
+            font-size: 15px;
+        }
+
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+
+        /* ================= LOGOUT ================= */
+
+        .logout-link {
+            background: none;
+
+            border: none;
+
+            padding: 0;
+
+            color: #b3b3b3;
+
+            font-size: 15px;
+
+            cursor: pointer;
+
+            font-family: Arial, sans-serif;
+        }
+
+
+        .logout-link:hover {
+            color: white;
+        }
+
+
+
+        /* ================= MAIN ================= */
+
+        .main {
+            max-width: 1000px;
+
+            margin: auto;
+
+            padding: 50px 35px 120px;
+        }
+
+
+
+        /* ================= PROFILE ================= */
+
+        .profile {
+            background: #181818;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            margin-bottom: 45px;
+        }
+
+
+        .profile h1 {
+            font-size: 36px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .profile-info {
+            color: #b3b3b3;
+
+            line-height: 1.8;
+        }
+
+
+        .profile-info strong {
+            color: white;
+        }
+
+
+
+        /* ================= BECOME ARTIST ================= */
+
+        .artist-section {
+            margin-top: 30px;
+        }
+
+
+        .artist-btn {
+            display: inline-block;
+
+            background: #1db954;
+
+            color: black;
+
+            padding: 12px 22px;
+
+            border-radius: 25px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+
+        .artist-btn:hover {
+            background: #1ed760;
+        }
+
+
+
+        /* ================= PLAYLIST SECTION ================= */
+
+        .playlists-section h2 {
+            font-size: 28px;
+
+            margin-bottom: 25px;
+        }
+
+
+
+        /* ================= PLAYLIST CARD ================= */
+
+        .playlist {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background: #181818;
+
+            padding: 20px;
+
+            margin-bottom: 12px;
+
+            border-radius: 8px;
+
+            color: white;
+
+            text-decoration: none;
+
+            transition: 0.2s;
+        }
+
+
+        .playlist:hover {
+            background: #282828;
+
+            transform: translateY(-2px);
+        }
+
+
+        .playlist-left {
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+
+        .playlist-icon {
+            width: 55px;
+
+            height: 55px;
+
+            border-radius: 6px;
+
+            background: linear-gradient(
+                135deg,
+                #1db954,
+                #191414
+            );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+        }
+
+
+        .playlist-name {
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+
+        .playlist-count {
+            color: #b3b3b3;
+
+            font-size: 14px;
+        }
+
+
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            color: #b3b3b3;
+
+            background: #181818;
+
+            padding: 25px;
+
+            border-radius: 8px;
+        }
+
+
+
+        /* ================= CREATE PLAYLIST ================= */
+
+        .create-btn {
+            display: inline-block;
+
+            margin-top: 20px;
+
+            background: #1db954;
+
+            color: black;
+
+            padding: 12px 22px;
+
+            border-radius: 25px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        .create-btn:hover {
+            background: #1ed760;
+        }
+
+
+
+        /* ================= BOTTOM PLAYER ================= */
+
+        .player {
+            position: fixed;
+
+            bottom: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 80px;
+
+            background: #181818;
+
+            border-top: 1px solid #282828;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #b3b3b3;
+        }
+
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 15px;
+            }
+
+
+            .main {
+                padding: 30px 15px 120px;
+            }
+
+
+            .profile {
+                padding: 25px;
+            }
+
+
+            .profile h1 {
+                font-size: 28px;
+            }
+
+
+            .playlist {
+                padding: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+
+    <div class="logo">
+        Spotify
+    </div>
+
+
+    <div class="nav-links">
+
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+
+        {% if user.is_authenticated %}
+
+
+            <a href="{% url 'profile' %}">
+                Profile
+            </a>
+
+
+            <form
+                method="POST"
+                action="{% url 'logout' %}"
+                style="display: inline;"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="logout-link"
+                >
+                    Logout
+                </button>
+
+            </form>
+
+
+        {% else %}
+
+
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+
+
+            <a href="{% url 'signup' %}">
+                Signup
+            </a>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</nav>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+    <!-- ================= PROFILE INFORMATION ================= -->
+
+    <section class="profile">
+
+
+        <h1>
+            {{ user.username }}
+        </h1>
+
+
+        <div class="profile-info">
+
+
+            <p>
+
+                <strong>Username:</strong>
+
+                {{ user.username }}
+
+            </p>
+
+
+            <p>
+
+                <strong>Role:</strong>
+
+                {{ profile.get_role_display }}
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- ================= BECOME ARTIST ================= -->
+
+        {% if profile.role == "user" %}
+
+            <div class="artist-section">
+
+                <form
+                    method="POST"
+                    action="{% url 'become_artist' %}"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="artist-btn"
+                    >
+
+                        🎤 Become an Artist
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        {% endif %}
+
+
+    </section>
+
+
+
+    <!-- ================= PLAYLISTS ================= -->
+
+    <section class="playlists-section">
+
+
+        <h2>
+            Your Playlists
+        </h2>
+
+
+        {% if playlists %}
+
+
+            {% for playlist in playlists %}
+
+
+                <a
+                    href="{% url 'playlist_detail' playlist.pk %}"
+                    class="playlist"
+                >
+
+
+                    <div class="playlist-left">
+
+
+                        <div class="playlist-icon">
+                            🎵
+                        </div>
+
+
+                        <div>
+
+
+                            <div class="playlist-name">
+
+                                {{ playlist.name }}
+
+                            </div>
+
+
+                            <div class="playlist-count">
+
+                                {{ playlist.songs.count }} songs
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div>
+                        →
+                    </div>
+
+
+                </a>
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <div class="empty">
+
+
+                <p>
+
+                    You haven't created any playlists yet.
+
+                </p>
+
+
+                <a
+                    href="{% url 'create_playlist' %}"
+                    class="create-btn"
+                >
+
+                    🎵 Create Playlist
+
+                </a>
+
+
+            </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- ================= BOTTOM PLAYER ================= -->
+
+<div class="player">
+
+    🎵
+
+    &nbsp;&nbsp;
+
+    Select a song to start playing
+
+</div>
+
+
+</body>
+
+</html>

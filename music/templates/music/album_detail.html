@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ album.name }} - Spotify</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #121212, #000000);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            height: 70px;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            gap: 30px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1db954;
+            margin-right: 30px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            color: #1db954;
+        }
+
+        .logout-link {
+            background: none;
+            border: none;
+            padding: 0;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
+
+        .logout-link:hover {
+            color: #1db954;
+        }
+
+        /* Main */
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 50px 40px;
+        }
+
+        /* Album Header */
+
+        .album-header {
+            display: flex;
+            align-items: flex-end;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .album-image {
+            width: 230px;
+            height: 230px;
+            object-fit: cover;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .no-image {
+            width: 230px;
+            height: 230px;
+            background: #282828;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            color: #b3b3b3;
+        }
+
+        .album-info {
+            padding-bottom: 10px;
+        }
+
+        .album-type {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .album-title {
+            font-size: 55px;
+            margin: 0 0 15px 0;
+        }
+
+        .artist-name {
+            color: #b3b3b3;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .release-date {
+            color: #b3b3b3;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+
+        .actions {
+            margin-bottom: 30px;
+        }
+
+        .add-song-btn {
+            display: inline-block;
+            background: #1db954;
+            color: black;
+            padding: 12px 22px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .add-song-btn:hover {
+            background: #1ed760;
+            transform: scale(1.03);
+        }
+
+        /* Songs */
+
+        .songs-title {
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        .song-item {
+            display: grid;
+            grid-template-columns: 50px 1fr 1.5fr 100px;
+            align-items: center;
+            padding: 14px 15px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+
+        .song-item:hover {
+            background: #282828;
+        }
+
+        .song-link {
+            display: block;
+            color: white;
+            text-decoration: none;
+        }
+
+        .song-number {
+            color: #b3b3b3;
+        }
+
+        .song-name {
+            font-weight: bold;
+        }
+
+        .song-description {
+            color: #b3b3b3;
+            font-size: 14px;
+        }
+
+        .song-duration {
+            color: #b3b3b3;
+            text-align: right;
+        }
+
+        .empty {
+            color: #b3b3b3;
+            padding: 30px 0;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 40px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: #1db954;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            🎵 Spotify
+        </div>
+
+        <a href="{% url 'home' %}" class="nav-link">
+            Home
+        </a>
+
+        {% if user.is_authenticated %}
+
+            <a href="{% url 'profile' %}" class="nav-link">
+                Profile
+            </a>
+
+            <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+
+                <button type="submit" class="logout-link">
+                    Logout
+                </button>
+
+            </form>
+
+        {% else %}
+
+            <a href="{% url 'login' %}" class="nav-link">
+                Login
+            </a>
+
+            <a href="{% url 'signup' %}" class="nav-link">
+                Sign Up
+            </a>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Main Container -->
+
+    <div class="container">
+
+        <!-- Album Header -->
+
+        <div class="album-header">
+
+            {% if album.image %}
+
+                <img
+                    src="{{ album.image.url }}"
+                    alt="{{ album.name }}"
+                    class="album-image"
+                >
+
+            {% else %}
+
+                <div class="no-image">
+                    No Cover
+                </div>
+
+            {% endif %}
+
+
+            <div class="album-info">
+
+                <div class="album-type">
+                    Album
+                </div>
+
+                <h1 class="album-title">
+                    {{ album.name }}
+                </h1>
+
+                <div class="artist-name">
+                    🎤 {{ album.artist.name }}
+                </div>
+
+                <div class="release-date">
+                    Released: {{ album.relesed_date }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Artist Action -->
+
+        {% if user.is_authenticated and user.profile.role == "artist" %}
+
+            <div class="actions">
+
+                <a
+                    href="{% url 'add_song' %}"
+                    class="add-song-btn"
+                >
+                    ➕ Add Song
+                </a>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- Songs -->
+
+        <h2 class="songs-title">
+            Songs
+        </h2>
+
+
+        {% for song in album.song.all %}
+
+            <a
+                href="{% url 'song_detail' song.pk %}"
+                class="song-link"
+            >
+
+                <div class="song-item">
+
+                    <div class="song-number">
+                        {{ forloop.counter }}
+                    </div>
+
+                    <div class="song-name">
+                        {{ song.name }}
+                    </div>
+
+                    <div class="song-description">
+                        {{ song.description }}
+                    </div>
+
+                    <div class="song-duration">
+                        {{ song.duration }}
+                    </div>
+
+                </div>
+
+            </a>
+
+        {% empty %}
+
+            <p class="empty">
+                No songs in this album yet.
+            </p>
+
+        {% endfor %}
+
+
+        <!-- Back -->
+
+        <a
+            href="{% url 'home' %}"
+            class="back-btn"
+        >
+            ← Back to Home
+        </a>
+
+    </div>
+
+</body>
+</html>
