@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Spotify</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #121212, #000000);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            width: 420px;
+            background: #121212;
+            padding: 45px 50px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #1db954;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 26px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            background: #121212;
+            border: 1px solid #727272;
+            border-radius: 4px;
+            color: white;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border: 1px solid white;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #1db954;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            color: black;
+            margin-top: 5px;
+        }
+
+        .login-btn:hover {
+            background: #1ed760;
+            transform: scale(1.02);
+        }
+
+        .signup-text {
+            text-align: center;
+            margin-top: 30px;
+            color: #b3b3b3;
+            font-size: 14px;
+        }
+
+        .signup-text a {
+            color: white;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .signup-text a:hover {
+            color: #1db954;
+        }
+
+        .error {
+            background: #2a1515;
+            color: #ff6b6b;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <div class="logo">
+        <h1>🎵 <span>Spotify</span></h1>
+    </div>
+
+    <h2>Log in to Spotify</h2>
+
+    {% if form.errors %}
+        <div class="error">
+            Username ya password incorrect hai.
+        </div>
+    {% endif %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Username</label>
+        {{ form.username }}
+
+        <label>Password</label>
+        {{ form.password }}
+
+        <button type="submit" class="login-btn">
+            Log In
+        </button>
+
+    </form>
+
+    <div class="signup-text">
+        Don't have an account?
+        <a href="{% url 'signup' %}">Sign up</a>
+    </div>
+
+</div>
+
+</body>
+</html>

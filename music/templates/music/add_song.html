@@ -1,0 +1,486 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Song - Spotify</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #121212;
+            color: white;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+            background: #000;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #1db954;
+        }
+
+
+        /* ================= PAGE ================= */
+
+        .page {
+            min-height: calc(100vh - 70px);
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+
+            padding: 50px 20px 120px;
+        }
+
+
+        /* ================= FORM CARD ================= */
+
+        .form-card {
+            width: 100%;
+            max-width: 600px;
+
+            background: #181818;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-card h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .form-card .subtitle {
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            background: #282828;
+
+            color: white;
+
+            border: 1px solid #444;
+
+            border-radius: 6px;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #1db954;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input[type="file"] {
+            padding: 10px;
+        }
+
+
+        /* ================= HELP TEXT ================= */
+
+        .help-text {
+            display: block;
+
+            color: #777;
+
+            font-size: 12px;
+
+            margin-top: 6px;
+        }
+
+
+        /* ================= ERRORS ================= */
+
+        .errors {
+            color: #ff6b6b;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+        }
+
+
+        /* ================= BUTTON ================= */
+
+        .submit-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 25px;
+
+            background: #1db954;
+
+            color: black;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #1ed760;
+
+            transform: scale(1.02);
+        }
+
+
+        /* ================= BACK ================= */
+
+        .back-link {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #aaa;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .page {
+                padding: 30px 15px 120px;
+            }
+
+            .form-card {
+                padding: 25px 20px;
+            }
+
+            .form-card h1 {
+                font-size: 27px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🎵 Spotify
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'profile' %}">
+                    Profile
+                </a>
+
+                <a href="{% url 'logout' %}">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+                <a href="{% url 'signup' %}">
+                    Signup
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ================= PAGE ================= -->
+
+    <main class="page">
+
+
+        <div class="form-card">
+
+
+            <h1>
+                Add Song 🎵
+            </h1>
+
+            <p class="subtitle">
+                Add a new song to your album.
+            </p>
+
+
+            <!-- ================= FORM ================= -->
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+
+                <!-- SONG NAME -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.name.id_for_label }}">
+                        Song Name
+                    </label>
+
+                    {{ form.name }}
+
+                    {% if form.name.errors %}
+                        <div class="errors">
+                            {{ form.name.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.description.id_for_label }}">
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                    {% if form.description.errors %}
+                        <div class="errors">
+                            {{ form.description.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- AUDIO -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.audio.id_for_label }}">
+                        Audio File
+                    </label>
+
+                    {{ form.audio }}
+
+                    <span class="help-text">
+                        Upload the audio file for your song.
+                    </span>
+
+                    {% if form.audio.errors %}
+                        <div class="errors">
+                            {{ form.audio.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DURATION -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.duration.id_for_label }}">
+                        Duration
+                    </label>
+
+                    {{ form.duration }}
+
+                    <span class="help-text">
+                        Example: 00:03:45
+                    </span>
+
+                    {% if form.duration.errors %}
+                        <div class="errors">
+                            {{ form.duration.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ALBUM -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.albums.id_for_label }}">
+                        Album
+                    </label>
+
+                    {{ form.albums }}
+
+                    {% if form.albums.errors %}
+                        <div class="errors">
+                            {{ form.albums.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- NON FIELD ERRORS -->
+
+                {% if form.non_field_errors %}
+
+                    <div class="errors">
+
+                        {{ form.non_field_errors }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Create Song
+                </button>
+
+
+            </form>
+
+
+            <!-- BACK -->
+
+            <a
+                href="{% url 'home' %}"
+                class="back-link"
+            >
+                ← Back to Home
+            </a>
+
+
+        </div>
+
+    </main>
+
+
+</body>
+
+</html>
