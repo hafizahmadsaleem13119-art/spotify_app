@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ playlist.name }} - Spotify</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 70px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1db954;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            color: #1db954;
+        }
+
+        /* Main */
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 25px;
+        }
+
+        /* Playlist Header */
+        .playlist-header {
+            background: linear-gradient(135deg, #333, #181818);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .playlist-icon {
+            width: 140px;
+            height: 140px;
+            background: #1db954;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .playlist-header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .playlist-header p {
+            color: #b3b3b3;
+            font-size: 16px;
+        }
+
+        /* Songs */
+        .songs-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .song-link {
+            display: block;
+            color: white;
+            text-decoration: none;
+        }
+
+        .song {
+            display: grid;
+            grid-template-columns: 50px 1fr 220px 100px;
+            align-items: center;
+            gap: 15px;
+
+            padding: 15px 20px;
+            border-radius: 8px;
+
+            transition: background 0.2s;
+        }
+
+        .song:hover {
+            background: #282828;
+        }
+
+        .song-number {
+            color: #b3b3b3;
+            text-align: center;
+        }
+
+        .song-name {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .song-album {
+            color: #b3b3b3;
+            font-size: 14px;
+        }
+
+        .song-duration {
+            color: #b3b3b3;
+            text-align: right;
+        }
+
+        .empty {
+            color: #b3b3b3;
+            padding: 30px 0;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+
+            background: #1db954;
+            color: black;
+
+            padding: 12px 22px;
+            border-radius: 25px;
+
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #1ed760;
+        }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .container {
+                margin-top: 30px;
+            }
+
+            .playlist-header h1 {
+                font-size: 30px;
+            }
+
+            .song {
+                grid-template-columns: 35px 1fr 70px;
+            }
+
+            .song-album {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Spotify
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'profile' %}">
+                    Profile
+                </a>
+
+                <a href="{% url 'logout' %}">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+                <a href="{% url 'signup' %}">
+                    Signup
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+
+    <!-- Main -->
+    <div class="container">
+
+        <!-- Playlist Header -->
+        <div class="playlist-header">
+
+            <div class="playlist-icon">
+                🎵
+            </div>
+
+            <h1>
+                {{ playlist.name }}
+            </h1>
+
+            <p>
+                {{ playlist.songs.count }} songs
+            </p>
+
+        </div>
+
+
+        <!-- Songs -->
+        <h2 class="songs-title">
+            Songs
+        </h2>
+
+
+        {% for song in playlist.songs.all %}
+
+            <!-- IMPORTANT: whole row is clickable -->
+            <a
+                href="{% url 'song_detail' song.pk %}"
+                class="song-link"
+            >
+
+                <div class="song">
+
+                    <div class="song-number">
+                        {{ forloop.counter }}
+                    </div>
+
+                    <div class="song-name">
+                        {{ song.name }}
+                    </div>
+
+                    <div class="song-album">
+
+                        {{ song.albums.name }}
+
+                    </div>
+
+                    <div class="song-duration">
+
+                        {{ song.duration }}
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        {% empty %}
+
+            <p class="empty">
+                This playlist has no songs yet.
+            </p>
+
+        {% endfor %}
+
+
+        <!-- Back -->
+        <a
+            href="{% url 'profile' %}"
+            class="back-btn"
+        >
+            ← Back to Profile
+        </a>
+
+    </div>
+
+</body>
+</html>

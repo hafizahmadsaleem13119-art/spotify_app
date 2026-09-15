@@ -1,0 +1,730 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Spotify</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            background: #121212;
+            color: white;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+
+            background: #000;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 40px;
+        }
+
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+
+        .nav-links a {
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            transition: 0.3s;
+        }
+
+
+        .nav-links a:hover {
+            color: #1db954;
+        }
+
+
+        /* ================= LOGOUT ================= */
+
+        .logout-link {
+            background: none;
+
+            border: none;
+
+            padding: 0;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            font-family: Arial, sans-serif;
+        }
+
+
+        .logout-link:hover {
+            color: #1db954;
+        }
+
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+
+            padding: 50px 40px;
+
+            background: linear-gradient(
+                to right,
+                #1db954,
+                #121212
+            );
+        }
+
+
+        .hero h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .hero p {
+
+            font-size: 18px;
+
+            color: #ddd;
+        }
+
+
+
+        /* ================= ACTION BUTTONS ================= */
+
+        .artist-actions {
+
+            display: flex;
+
+            gap: 15px;
+
+            margin-top: 25px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .action-btn {
+
+            display: inline-block;
+
+            padding: 12px 22px;
+
+            background: #1db954;
+
+            color: black;
+
+            text-decoration: none;
+
+            border-radius: 25px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+
+        .action-btn:hover {
+
+            background: #1ed760;
+
+            transform: scale(1.03);
+        }
+
+
+
+        /* ================= ALBUM SECTION ================= */
+
+        .albums-section {
+
+            padding: 35px 40px 120px;
+        }
+
+
+        .albums-section h2 {
+
+            font-size: 28px;
+
+            margin-bottom: 25px;
+        }
+
+
+
+        /* ================= ALBUM GRID ================= */
+
+        .albums-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 25px;
+        }
+
+
+
+        /* ================= ALBUM LINK ================= */
+
+        .album-link {
+
+            text-decoration: none;
+
+            color: white;
+        }
+
+
+
+        /* ================= ALBUM CARD ================= */
+
+        .album-card {
+
+            background: #181818;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            transition: 0.3s;
+        }
+
+
+        .album-card:hover {
+
+            background: #282828;
+
+            transform: translateY(-5px);
+        }
+
+
+
+        /* ================= ALBUM IMAGE ================= */
+
+        .album-image {
+
+            width: 100%;
+
+            height: 220px;
+
+            background: #333;
+
+            border-radius: 8px;
+
+            margin-bottom: 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 50px;
+
+            overflow: hidden;
+        }
+
+
+        .album-image img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            border-radius: 8px;
+        }
+
+
+
+        /* ================= ALBUM NAME ================= */
+
+        .album-card h3 {
+
+            font-size: 18px;
+
+            margin-bottom: 8px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+
+        /* ================= ARTIST / DATE ================= */
+
+        .album-card p {
+
+            color: #aaa;
+
+            font-size: 14px;
+
+            margin-bottom: 5px;
+        }
+
+
+
+        /* ================= BOTTOM PLAYER ================= */
+
+        .player {
+
+            position: fixed;
+
+            bottom: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 80px;
+
+            background: #181818;
+
+            border-top: 1px solid #333;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .player-text {
+
+            color: #aaa;
+
+            font-size: 14px;
+        }
+
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 0 20px;
+            }
+
+
+            .logo {
+
+                font-size: 22px;
+            }
+
+
+            .nav-links {
+
+                gap: 12px;
+            }
+
+
+            .nav-links a,
+            .logout-link {
+
+                font-size: 14px;
+            }
+
+
+            .hero {
+
+                padding: 35px 20px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 30px;
+            }
+
+
+            .artist-actions {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .albums-section {
+
+                padding: 30px 20px 120px;
+            }
+
+
+            .albums-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 15px;
+            }
+
+
+            .album-card {
+
+                padding: 12px;
+            }
+
+
+            .album-image {
+
+                height: 150px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+
+        <div class="logo">
+
+            🎵 Spotify
+
+        </div>
+
+
+        <div class="nav-links">
+
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+
+            {% if user.is_authenticated %}
+
+
+                <a href="{% url 'profile' %}">
+                    Profile
+                </a>
+
+
+                <!-- ================= LOGOUT ================= -->
+
+                <form
+                    method="POST"
+                    action="{% url 'logout' %}"
+                    style="display: inline;"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="logout-link"
+                    >
+
+                        Logout
+
+                    </button>
+
+                </form>
+
+
+            {% else %}
+
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+
+                <a href="{% url 'signup' %}">
+                    Signup
+                </a>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+    </nav>
+
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+
+        {% if user.is_authenticated %}
+
+
+            <h1>
+
+                Hi, {{ user.username }} 👋
+
+            </h1>
+
+
+        {% else %}
+
+
+            <h1>
+
+                Welcome to Spotify 🎵
+
+            </h1>
+
+
+        {% endif %}
+
+
+        <p>
+
+            Discover your favorite albums and artists.
+
+        </p>
+
+
+
+        <!-- ================= ACTION BUTTONS ================= -->
+
+        {% if user.is_authenticated %}
+
+
+            <div class="artist-actions">
+
+
+                <!-- CREATE PLAYLIST -->
+
+                <a
+                    href="{% url 'create_playlist' %}"
+                    class="action-btn"
+                >
+
+                    🎵 Create Playlist
+
+                </a>
+
+
+
+                <!-- ================= ARTIST ONLY ================= -->
+
+                {% if user.profile.role == "artist" %}
+
+
+                    <a
+                        href="{% url 'add_album' %}"
+                        class="action-btn"
+                    >
+
+                        ➕ Add Album
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'add_song' %}"
+                        class="action-btn"
+                    >
+
+                        🎵 Add Song
+
+                    </a>
+
+
+                {% endif %}
+
+
+            </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+
+    <!-- ================= ALBUMS ================= -->
+
+    <section class="albums-section">
+
+
+        <h2>
+
+            Popular Albums
+
+        </h2>
+
+
+        <div class="albums-grid">
+
+
+            {% for album in albums %}
+
+
+                <a
+                    href="{% url 'album_detail' album.pk %}"
+                    class="album-link"
+                >
+
+
+                    <div class="album-card">
+
+
+                        <!-- ================= ALBUM IMAGE ================= -->
+
+                        <div class="album-image">
+
+
+                            {% if album.image %}
+
+
+                                <img
+                                    src="{{ album.image.url }}"
+                                    alt="{{ album.name }}"
+                                >
+
+
+                            {% else %}
+
+
+                                💿
+
+
+                            {% endif %}
+
+
+                        </div>
+
+
+
+                        <!-- ================= ALBUM NAME ================= -->
+
+                        <h3>
+
+                            {{ album.name }}
+
+                        </h3>
+
+
+
+                        <!-- ================= ARTIST ================= -->
+
+                        <p>
+
+                            {{ album.artist.name }}
+
+                        </p>
+
+
+
+                        <!-- ================= RELEASE DATE ================= -->
+
+                        <p>
+
+                            {{ album.relesed_date }}
+
+                        </p>
+
+
+                    </div>
+
+
+                </a>
+
+
+            {% empty %}
+
+
+                <p>
+
+                    No albums available.
+
+                </p>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ================= BOTTOM PLAYER ================= -->
+
+    <div class="player">
+
+
+        <div class="player-text">
+
+            Select a song to start listening 🎧
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

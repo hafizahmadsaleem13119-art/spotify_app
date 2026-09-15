@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ song.name }} - Spotify</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: white;
+            min-height: 100vh;
+        }
+
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            padding: 0 35px;
+            gap: 35px;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #1db954;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #b3b3b3;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+
+        /* MAIN */
+
+        .main {
+            padding: 50px 35px 120px;
+        }
+
+
+        /* SONG */
+
+        .song-container {
+            max-width: 900px;
+            margin: auto;
+            background: #181818;
+            padding: 40px;
+            border-radius: 12px;
+        }
+
+        .song-title {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .song-description {
+            color: #b3b3b3;
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .song-info {
+            color: #b3b3b3;
+            margin-bottom: 30px;
+        }
+
+        .song-info p {
+            margin-bottom: 8px;
+        }
+
+
+        /* AUDIO */
+
+        audio {
+            width: 100%;
+            margin: 25px 0;
+        }
+
+
+        /* BUTTONS */
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .playlist-btn {
+            background: #1db954;
+            color: black;
+        }
+
+        .playlist-btn:hover {
+            background: #1ed760;
+        }
+
+        .back-btn {
+            background: #282828;
+            color: white;
+        }
+
+        .back-btn:hover {
+            background: #3a3a3a;
+        }
+
+
+        /* PLAYER */
+
+        .player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+
+            width: 100%;
+            height: 80px;
+
+            background: #181818;
+            border-top: 1px solid #282828;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #b3b3b3;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 15px;
+            }
+
+            .main {
+                padding: 30px 15px 120px;
+            }
+
+            .song-container {
+                padding: 25px;
+            }
+
+            .song-title {
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        Spotify
+    </div>
+
+    <div class="nav-links">
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        {% if user.is_authenticated %}
+
+            <a href="{% url 'profile' %}">
+                Profile
+            </a>
+
+            <a href="{% url 'logout' %}">
+                Logout
+            </a>
+
+        {% else %}
+
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+
+            <a href="{% url 'signup' %}">
+                Signup
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <div class="song-container">
+
+
+        <!-- SONG NAME -->
+
+        <h1 class="song-title">
+            {{ song.name }}
+        </h1>
+
+
+        <!-- DESCRIPTION -->
+
+        <p class="song-description">
+            {{ song.description }}
+        </p>
+
+
+        <!-- SONG INFO -->
+
+        <div class="song-info">
+
+            <p>
+                <strong>Album:</strong>
+                {{ song.albums.name }}
+            </p>
+
+            <p>
+                <strong>Artist:</strong>
+                {{ song.albums.artist.name }}
+            </p>
+
+            <p>
+                <strong>Duration:</strong>
+                {{ song.duration }}
+            </p>
+
+        </div>
+
+
+
+        <!-- AUDIO PLAYER -->
+
+        {% if song.audio %}
+
+            <audio controls>
+
+                <source
+                    src="{{ song.audio.url }}"
+                    type="audio/mpeg"
+                >
+
+                Your browser does not support audio.
+
+            </audio>
+
+        {% endif %}
+
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+
+            {% if user.is_authenticated %}
+
+                <a
+                    href="{% url 'add_to_playlist' song.pk %}"
+                    class="btn playlist-btn"
+                >
+                    ➕ Add to Playlist
+                </a>
+
+            {% endif %}
+
+
+            <a
+                href="{% url 'album_detail' song.albums.pk %}"
+                class="btn back-btn"
+            >
+                ← Back to Album
+            </a>
+
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<!-- BOTTOM PLAYER -->
+
+<div class="player">
+
+    🎵
+    &nbsp;&nbsp;
+    {{ song.name }}
+
+</div>
+
+
+</body>
+</html>
