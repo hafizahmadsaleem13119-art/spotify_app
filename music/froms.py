@@ -1,5 +1,5 @@
 from django import forms
-from .models import Album, Song, Playlist
+from .models import Album, Song
 
 
 class AlbumForm(forms.ModelForm):
@@ -24,10 +24,4 @@ class SongForm(forms.ModelForm):
             "albums",
         ]
 
-class PlaylistForm(forms.ModelForm):
 
-    class Meta:
-        model = Playlist
-        fields = [
-            "name",
-        ]

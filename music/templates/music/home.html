@@ -1,3 +1,4 @@
+```html
 {% load static %}
 
 <!DOCTYPE html>
@@ -180,7 +181,7 @@
 
         .albums-section {
 
-            padding: 35px 40px 120px;
+            padding: 35px 40px 40px;
         }
 
 
@@ -313,6 +314,59 @@
 
 
 
+        /* ================= PAGINATION ================= */
+
+        .pagination {
+
+            margin-top: 35px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        .pagination a {
+
+            background: #1db954;
+
+            color: black;
+
+            text-decoration: none;
+
+            padding: 10px 20px;
+
+            border-radius: 25px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+
+        .pagination a:hover {
+
+            background: #1ed760;
+
+            transform: scale(1.03);
+        }
+
+
+        .pagination span {
+
+            color: #aaa;
+
+            font-size: 14px;
+        }
+
+
+
         /* ================= BOTTOM PLAYER ================= */
 
         .player {
@@ -421,6 +475,26 @@
             .album-image {
 
                 height: 150px;
+            }
+
+
+            .pagination {
+
+                gap: 10px;
+            }
+
+
+            .pagination a {
+
+                padding: 8px 14px;
+
+                font-size: 13px;
+            }
+
+
+            .pagination span {
+
+                font-size: 13px;
             }
 
         }
@@ -706,6 +780,56 @@
         </div>
 
 
+
+        <!-- ================= PAGINATION ================= -->
+
+        {% if page_obj.paginator.num_pages > 1 %}
+
+            <div class="pagination">
+
+
+                {% if page_obj.has_previous %}
+
+                    <a
+                        href="?page={{ page_obj.previous_page_number }}"
+                    >
+
+                        ← Previous
+
+                    </a>
+
+                {% endif %}
+
+
+
+                <span>
+
+                    Page {{ page_obj.number }}
+                    of
+                    {{ page_obj.paginator.num_pages }}
+
+                </span>
+
+
+
+                {% if page_obj.has_next %}
+
+                    <a
+                        href="?page={{ page_obj.next_page_number }}"
+                    >
+
+                        Next →
+
+                    </a>
+
+                {% endif %}
+
+
+            </div>
+
+        {% endif %}
+
+
     </section>
 
 
@@ -728,3 +852,4 @@
 </body>
 
 </html>
+```
