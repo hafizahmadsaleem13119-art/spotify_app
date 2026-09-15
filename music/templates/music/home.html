@@ -100,7 +100,6 @@
         }
 
 
-
         /* ================= HERO ================= */
 
         .hero {
@@ -129,7 +128,6 @@
 
             color: #ddd;
         }
-
 
 
         /* ================= ACTION BUTTONS ================= */
@@ -176,7 +174,6 @@
         }
 
 
-
         /* ================= ALBUM SECTION ================= */
 
         .albums-section {
@@ -191,7 +188,6 @@
 
             margin-bottom: 25px;
         }
-
 
 
         /* ================= ALBUM GRID ================= */
@@ -210,7 +206,6 @@
         }
 
 
-
         /* ================= ALBUM LINK ================= */
 
         .album-link {
@@ -219,7 +214,6 @@
 
             color: white;
         }
-
 
 
         /* ================= ALBUM CARD ================= */
@@ -242,7 +236,6 @@
 
             transform: translateY(-5px);
         }
-
 
 
         /* ================= ALBUM IMAGE ================= */
@@ -283,7 +276,6 @@
         }
 
 
-
         /* ================= ALBUM NAME ================= */
 
         .album-card h3 {
@@ -300,7 +292,6 @@
         }
 
 
-
         /* ================= ARTIST / DATE ================= */
 
         .album-card p {
@@ -311,7 +302,6 @@
 
             margin-bottom: 5px;
         }
-
 
 
         /* ================= PAGINATION ================= */
@@ -366,7 +356,6 @@
         }
 
 
-
         /* ================= BOTTOM PLAYER ================= */
 
         .player {
@@ -399,7 +388,6 @@
 
             font-size: 14px;
         }
-
 
 
         /* ================= MOBILE ================= */
@@ -639,7 +627,7 @@
 
                 <!-- ================= ARTIST ONLY ================= -->
 
-                {% if user.profile.role == "artist" %}
+                {% if user.role == "artist" %}
 
 
                     <a
@@ -785,10 +773,12 @@
 
         {% if page_obj.paginator.num_pages > 1 %}
 
+
             <div class="pagination">
 
 
                 {% if page_obj.has_previous %}
+
 
                     <a
                         href="?page={{ page_obj.previous_page_number }}"
@@ -798,8 +788,8 @@
 
                     </a>
 
-                {% endif %}
 
+                {% endif %}
 
 
                 <span>
@@ -811,8 +801,8 @@
                 </span>
 
 
-
                 {% if page_obj.has_next %}
+
 
                     <a
                         href="?page={{ page_obj.next_page_number }}"
@@ -822,10 +812,12 @@
 
                     </a>
 
+
                 {% endif %}
 
 
             </div>
+
 
         {% endif %}
 

@@ -29,7 +29,7 @@ class AlbumCreateView(CreateView):
     template_name = "music/add_album.html"
     success_url = reverse_lazy("home")
     def form_valid(self, form):
-        form.instance.artist = self.request.user.artist
+        form.instance.artist = self.request.user
         return super().form_valid(form)    
 
 

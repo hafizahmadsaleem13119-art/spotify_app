@@ -1,15 +1,16 @@
-from django.shortcuts import render
+
+from django.shortcuts import render, redirect
 from django.views.generic import CreateView
-from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from .models import User
-from playlist.models import Playlist
-from django.shortcuts import redirect, render
 from django.views import View
+
+from .models import User
 from .form import SignupFrom
+from playlist.models import Playlist
+
 from django.contrib.auth.views import (
     PasswordResetView,
-    LoginView, 
+    LoginView,
     LogoutView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
@@ -41,15 +42,31 @@ class MyPasswordResetView(PasswordResetView):
 
 
 
-
 class MyPasswordResetConfirmView(PasswordResetConfirmView):
+
     template_name = "users/password_reset_confirm.html"
+
+    def get(self, request, *args, **kwargs):
+        print("========== CONFIRM VIEW RUNNING ==========")
+        print("UID:", kwargs.get("uidb64"))
+        print("TOKEN RECEIVED:", bool(kwargs.get("token")))
+
+        response = super().get(request, *args, **kwargs)
+
+        print("VALID LINK:", self.validlink)
+
+        return response
+
+
+
 
 class MyPasswordResetDoneView(PasswordResetDoneView):
     template_name = "users/password_reset_done.html"
 
+
 class MyPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = "users/password_reset_complete.html"
+
 
 class SignupView(CreateView):
     form_class = SignupFrom
@@ -57,12 +74,7 @@ class SignupView(CreateView):
     success_url = reverse_lazy("login")
 
     def form_valid(self, form):
-        response = super().form_valid(form)
-        User.objects.create(
-            user=self.object
-        )
-
-        return response
+        return super().form_valid(form)
 
 
 class UserLoginView(LoginView):
@@ -72,28 +84,21 @@ class UserLoginView(LoginView):
 class UserLogoutView(LogoutView):
     next_page = "/"
 
+
 class BecomeArtistView(View):
 
     def post(self, request):
-        profile = request.user.profile
-
-        profile.role = "artist"
-        profile.save()
-
-        User.objects.get_or_create(
-            user=request.user,
-            defaults={
-                "name": request.user.username,
-                "bio": ""
-            }
-        )
+        request.user.role = "artist"
+        request.user.save()
 
         return redirect("profile")
+
 
 class ProfileView(View):
 
     def get(self, request):
-        profile = request.user.profile
+        user = request.user
+
         playlists = Playlist.objects.filter(
             user=request.user
         )
@@ -102,8 +107,8 @@ class ProfileView(View):
             request,
             "users/profile.html",
             {
-                "profile": profile,
-                "playlists": playlists,  
-
+                "profile": user,
+                "playlists": playlists,
             }
-        )      
+        )
+
