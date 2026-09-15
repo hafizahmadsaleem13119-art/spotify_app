@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from .models import Artist, Profile 
+from .models import User
 from playlist.models import Playlist
 from django.shortcuts import redirect, render
 from django.views import View
@@ -58,7 +58,7 @@ class SignupView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        Profile.objects.create(
+        User.objects.create(
             user=self.object
         )
 
@@ -80,7 +80,7 @@ class BecomeArtistView(View):
         profile.role = "artist"
         profile.save()
 
-        Artist.objects.get_or_create(
+        User.objects.get_or_create(
             user=request.user,
             defaults={
                 "name": request.user.username,

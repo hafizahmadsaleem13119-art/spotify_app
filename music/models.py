@@ -1,12 +1,12 @@
 from django.db import models
-from users.models import Artist
+from users.models import User
 
 class Album(models.Model):
     name = models.TextField(max_length=100)
     image = models.ImageField(upload_to="albums/", blank=True, null=True)
     relesed_date = models.DateField()
     artist = models.ForeignKey(
-        Artist,
+        User,
         on_delete=models.CASCADE,
         related_name="albums"
     )
