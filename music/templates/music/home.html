@@ -356,6 +356,96 @@
         }
 
 
+        /* ================= SONGS SECTION ================= */
+
+        .songs-section {
+
+            padding: 10px 40px 120px;
+        }
+
+
+        .songs-section h2 {
+
+            font-size: 28px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* ================= SONGS GRID ================= */
+
+        .songs-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 25px;
+        }
+
+
+        /* ================= SONG LINK ================= */
+
+        .song-link {
+
+            text-decoration: none;
+
+            color: white;
+
+            display: block;
+        }
+
+
+        /* ================= SONG CARD ================= */
+
+        .song-card {
+
+            background: #181818;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            transition: 0.3s;
+        }
+
+
+        .song-card:hover {
+
+            background: #282828;
+
+            transform: translateY(-5px);
+        }
+
+
+        .song-card h3 {
+
+            font-size: 18px;
+
+            margin-bottom: 8px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        .song-card p {
+
+            color: #aaa;
+
+            font-size: 14px;
+
+            margin-bottom: 5px;
+        }
+
+
         /* ================= BOTTOM PLAYER ================= */
 
         .player {
@@ -441,7 +531,7 @@
 
             .albums-section {
 
-                padding: 30px 20px 120px;
+                padding: 30px 20px 40px;
             }
 
 
@@ -463,6 +553,27 @@
             .album-image {
 
                 height: 150px;
+            }
+
+
+            .songs-section {
+
+                padding: 10px 20px 120px;
+            }
+
+
+            .songs-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 15px;
+            }
+
+
+            .song-card {
+
+                padding: 12px;
             }
 
 
@@ -731,7 +842,7 @@
 
                         <p>
 
-                            {{ album.artist.name }}
+                            {{ album.artist.username }}
 
                         </p>
 
@@ -820,6 +931,80 @@
 
 
         {% endif %}
+
+
+    </section>
+
+
+
+    <!-- ================= SONGS ================= -->
+
+    <section class="songs-section">
+
+
+        <h2>
+
+            Popular Songs
+
+        </h2>
+
+
+        <div class="songs-grid">
+
+
+            {% for song in songs %}
+
+
+                <a
+                    href="{% url 'song_detail' song.pk %}"
+                    class="song-link"
+                >
+
+
+                    <div class="song-card">
+
+
+                        <h3>
+
+                            {{ song.name }}
+
+                        </h3>
+
+
+                        <p>
+
+                            Album: {{ song.album.name }}
+
+                        </p>
+
+
+                        <p>
+
+                            {{ song.description }}
+
+                        </p>
+
+
+                    </div>
+
+
+                </a>
+
+
+            {% empty %}
+
+
+                <p>
+
+                    No songs available.
+
+                </p>
+
+
+            {% endfor %}
+
+
+        </div>
 
 
     </section>

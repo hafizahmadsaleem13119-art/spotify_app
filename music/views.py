@@ -10,6 +10,11 @@ class HomeView(ListView):
     context_object_name = "albums"
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["songs"] = Song.objects.all()[:10]
+        return context
 
 class SongDetailView(DetailView):
     model = Song
