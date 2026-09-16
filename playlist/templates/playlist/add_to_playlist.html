@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add to Playlist</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            height: 70px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            padding: 0 35px;
+        }
+
+        .logo {
+            color: #1db954;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .main {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 30px;
+        }
+
+        .container {
+            background: #181818;
+            padding: 35px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .song-name {
+            color: #b3b3b3;
+            margin-bottom: 30px;
+        }
+
+        .playlist {
+            display: block;
+            background: #282828;
+            color: white;
+            text-decoration: none;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .playlist:hover {
+            background: #3a3a3a;
+        }
+
+        .empty {
+            color: #b3b3b3;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #1db954;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Spotify
+        </div>
+
+    </nav>
+
+
+    <main class="main">
+
+        <div class="container">
+
+            <h1>
+                Add to Playlist
+            </h1>
+
+            <p class="song-name">
+                Song: {{ song.name }}
+            </p>
+
+
+            {% if playlists %}
+
+                {% for playlist in playlists %}
+
+                    <a
+                        href="{% url 'add_song_to_playlist' playlist.pk song.pk %}"
+                        class="playlist"
+                    >
+                        🎵 {{ playlist.name }}
+                    </a>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="empty">
+                    You don't have any playlists yet.
+                </p>
+
+                <a href="{% url 'create_playlist' %}">
+                    Create Playlist
+                </a>
+
+            {% endif %}
+
+
+            <a
+                href="{% url 'song_detail' song.pk %}"
+                class="back"
+            >
+                ← Back to Song
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

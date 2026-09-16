@@ -22,6 +22,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("music.urls")),
+    path("users/", include("users.urls")),
+    path("playlists/", include("playlist.urls")),
+
 ]
 urlpatterns += static(
     settings.MEDIA_URL,
