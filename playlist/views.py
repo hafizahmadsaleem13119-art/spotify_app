@@ -5,8 +5,9 @@ from .models import Song, Playlist
 from django.shortcuts import redirect, render
 from django.views import View
 from .forms import PlaylistForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class PlaylistCreateView(CreateView):
+class PlaylistCreateView(LoginRequiredMixin, CreateView):
     model = Playlist
     form_class = PlaylistForm
     template_name = "music/create_playlist.html"
