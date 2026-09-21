@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from .froms import AlbumForm, SongForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
+from mutagen import File
 
 class HomeView(ListView):
     model = Album
@@ -58,8 +59,26 @@ class SongCreateView(LoginRequiredMixin, CreateView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        form.instance.artist = self.request.user
-        return super().form_valid(form)    
+
+        form.instance.albums.artist = self.request.user
+
+
+        audio_file = form.cleaned_data.get("audio")
+
+        if audio_file:
+            audio = File(audio_file)
+
+            if audio and audio.info:
+                seconds = int(audio.info.length)
+
+                minutes = seconds // 60
+                remaining_seconds = seconds % 60
+
+                form.instance.duration = (
+                    f"{minutes}:{remaining_seconds:02d}"
+                )
+
+        return super().form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

@@ -18,7 +18,7 @@ class Song(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     audio = models.FileField(upload_to="songs/")
-    duration = models.DurationField()
+    duration = models.CharField(max_length=20, blank=True, null=True)
     albums = models.ForeignKey(
         Album,
         on_delete=models.CASCADE,

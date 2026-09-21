@@ -17,7 +17,7 @@ class SongForm(forms.ModelForm):
 
     class Meta:
         model = Song
-        fields = ["name", "description", "audio", "duration", "albums"]
+        fields = ["name", "description", "audio", "albums"]
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
