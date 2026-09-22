@@ -458,7 +458,7 @@
 
 
         <h1>
-            {{ user.username }}
+            {{ user.first_name }} {{ user.last_name }}
         </h1>
 
 
@@ -467,11 +467,22 @@
 
             <p>
 
-                <strong>Username:</strong>
+                <strong>Name:</strong>
+                {{ user.first_name }} 
+                {{ user.last_name }}
+            </p>
+             <p>
 
+                <strong>Username:</strong>
                 {{ user.username }}
 
             </p>
+             <p>
+
+                <strong>Bio:</strong>
+                {{ user.bio}}
+            </p>
+            
 
 
             <p>
