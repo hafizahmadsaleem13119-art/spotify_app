@@ -62,7 +62,6 @@ class SongCreateView(LoginRequiredMixin, CreateView):
 
         form.instance.albums.artist = self.request.user
 
-
         audio_file = form.cleaned_data.get("audio")
 
         if audio_file:
