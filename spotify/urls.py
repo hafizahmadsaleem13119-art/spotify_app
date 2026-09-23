@@ -27,11 +27,7 @@ urlpatterns = [
     path("", include("music.urls")),
     path("users/", include("users.urls")),
     path("playlists/", include("playlist.urls")),
-    path("api/v1/", include("music.api_urls")),
-    path("api/v1/", include("playlist.api_urls")),
-    path("api/v1/", include("users.api_urls")),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/v1/", include("spotify.api_urls")),
 ]
 urlpatterns += static(
     settings.MEDIA_URL,
