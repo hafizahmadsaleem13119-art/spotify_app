@@ -15,6 +15,8 @@ class PlaylistCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        def perform_create(self, serializer):
+            serializer.save(user=self.request.user)
         return super().form_valid(form)
 
 
