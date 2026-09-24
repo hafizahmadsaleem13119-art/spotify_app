@@ -3,305 +3,516 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>{{ song.name }} - Spotify</title>
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #121212;
+            background: linear-gradient(180deg, #1f1f1f 0%, #121212 55%);
             color: white;
             min-height: 100vh;
+            padding-bottom: 100px;
         }
 
-
         /* NAVBAR */
-
         .navbar {
             height: 70px;
             background: #000;
             display: flex;
             align-items: center;
-            padding: 0 35px;
-            gap: 35px;
+            justify-content: space-between;
+            padding: 0 40px;
         }
 
         .logo {
+            color: #1db954;
             font-size: 26px;
             font-weight: bold;
-            color: #1db954;
         }
 
         .nav-links {
             display: flex;
+            align-items: center;
             gap: 25px;
         }
 
         .nav-links a {
-            color: #b3b3b3;
+            color: #fff;
             text-decoration: none;
+            font-size: 15px;
+            transition: 0.2s;
         }
 
         .nav-links a:hover {
-            color: white;
+            color: #1db954;
         }
 
+        .logout-link {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .logout-link:hover {
+            color: #1db954;
+        }
 
         /* MAIN */
-
-        .main {
-            padding: 50px 35px 120px;
+        .container {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 30px;
         }
 
+        /* SONG HEADER */
+        .song-header {
+            padding: 50px 45px;
+            border-radius: 15px;
+            background: linear-gradient(
+                135deg,
+                #252525,
+                #171717
+            );
 
-        /* SONG */
-
-        .song-container {
-            max-width: 900px;
-            margin: auto;
-            background: #181818;
-            padding: 40px;
-            border-radius: 12px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
         }
 
-        .song-title {
-            font-size: 42px;
+        .song-type {
+            color: #b3b3b3;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 15px;
         }
 
-        .song-description {
-            color: #b3b3b3;
-            font-size: 17px;
-            line-height: 1.6;
-            margin-bottom: 25px;
+        .song-title {
+            font-size: 55px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            word-break: break-word;
         }
 
-        .song-info {
-            color: #b3b3b3;
-            margin-bottom: 30px;
-        }
-
-        .song-info p {
-            margin-bottom: 8px;
-        }
-
-
-        /* AUDIO */
-
-        audio {
-            width: 100%;
-            margin: 25px 0;
-        }
-
-
-        /* BUTTONS */
-
-        .buttons {
+        .song-meta {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
             flex-wrap: wrap;
+            gap: 15px;
+            color: #b3b3b3;
+            font-size: 15px;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 22px;
-            border-radius: 25px;
+        .song-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* DETAILS */
+        .details {
+            margin-top: 35px;
+            background: #181818;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .details h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            color: #b3b3b3;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .info {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            background: #242424;
+            padding: 18px;
+            border-radius: 8px;
+        }
+
+        .info-box small {
+            display: block;
+            color: #999;
+            margin-bottom: 7px;
+        }
+
+        .info-box a {
+            color: white;
             text-decoration: none;
             font-weight: bold;
         }
 
-        .playlist-btn {
+        .info-box a:hover {
+            color: #1db954;
+        }
+
+        /* AUDIO PLAYER */
+        .audio-section {
+            margin-top: 35px;
+            background: #181818;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .audio-section h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        audio {
+            width: 100%;
+        }
+
+        /* ACTIONS */
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .actions a {
+            text-decoration: none;
+            padding: 12px 22px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .edit-song-btn {
             background: #1db954;
+            color: #000;
+        }
+
+        .edit-song-btn:hover {
+            background: #1ed760;
+            transform: scale(1.03);
+        }
+
+        .add-song-btn {
+            background: white;
             color: black;
         }
 
-        .playlist-btn:hover {
-            background: #1ed760;
+        .add-song-btn:hover {
+            background: #ddd;
+            transform: scale(1.03);
         }
 
         .back-btn {
-            background: #282828;
+            background: #333;
             color: white;
         }
 
         .back-btn:hover {
-            background: #3a3a3a;
+            background: #444;
         }
 
-
-        /* PLAYER */
-
-        .player {
+        /* BOTTOM PLAYER */
+        .bottom-player {
             position: fixed;
             bottom: 0;
             left: 0;
-
             width: 100%;
-            height: 80px;
-
+            height: 75px;
             background: #181818;
-            border-top: 1px solid #282828;
-
+            border-top: 1px solid #333;
             display: flex;
             align-items: center;
-            justify-content: center;
-
-            color: #b3b3b3;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 1000;
         }
 
+        .player-song {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            min-width: 180px;
+        }
 
-        /* MOBILE */
+        .player-song strong {
+            font-size: 14px;
+        }
 
+        .player-song span {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .player-audio {
+            width: 50%;
+        }
+
+        .player-audio audio {
+            width: 100%;
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 700px) {
 
             .navbar {
-                padding: 0 15px;
+                padding: 0 20px;
             }
 
-            .main {
-                padding: 30px 15px 120px;
-            }
-
-            .song-container {
-                padding: 25px;
+            .nav-links {
+                gap: 12px;
             }
 
             .song-title {
-                font-size: 30px;
+                font-size: 38px;
             }
 
-        }
+            .song-header {
+                padding: 35px 25px;
+            }
 
+            .container {
+                padding: 0 15px;
+                margin-top: 30px;
+            }
+
+            .info {
+                grid-template-columns: 1fr;
+            }
+
+            .bottom-player {
+                padding: 0 15px;
+            }
+
+            .player-song {
+                display: none;
+            }
+
+            .player-audio {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
-
 <body>
 
+    <!-- NAVBAR -->
+    <nav class="navbar">
 
-<!-- NAVBAR -->
+        <div class="logo">
+            🎵 Spotify
+        </div>
 
-<nav class="navbar">
+        <div class="nav-links">
 
-    <div class="logo">
-        Spotify
-    </div>
-
-    <div class="nav-links">
-
-        <a href="{% url 'home' %}">
-            Home
-        </a>
-
-        {% if user.is_authenticated %}
-
-            <a href="{% url 'profile' %}">
-                Profile
+            <a href="{% url 'home' %}">
+                Home
             </a>
 
-            <a href="{% url 'logout' %}">
-                Logout
-            </a>
+            {% if user.is_authenticated %}
 
-        {% else %}
+                <a href="#">
+                    Profile
+                </a>
 
-            <a href="{% url 'login' %}">
-                Login
-            </a>
+                <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
 
-            <a href="{% url 'signup' %}">
-                Signup
-            </a>
+                    <button type="submit" class="logout-link">
+                        Logout
+                    </button>
+                </form>
 
-        {% endif %}
+            {% else %}
 
-    </div>
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
 
-</nav>
+                <a href="{% url 'signup' %}">
+                    Sign Up
+                </a>
 
-
-
-<!-- MAIN -->
-
-<main class="main">
-
-    <div class="song-container">
-
-
-        <!-- SONG NAME -->
-
-        <h1 class="song-title">
-            {{ song.name }}
-        </h1>
-
-
-        <!-- DESCRIPTION -->
-
-        <p class="song-description">
-            {{ song.description }}
-        </p>
-
-
-        <!-- SONG INFO -->
-
-        <div class="song-info">
-
-            <p>
-                <strong>Album:</strong>
-                {{ song.albums.name }}
-            </p>
-
-            <p>
-                <strong>Artist:</strong>
-                {{ song.albums.artist.name }}
-            </p>
-
-            <p>
-                <strong>Duration:</strong>
-                {{ song.duration }}
-            </p>
+            {% endif %}
 
         </div>
 
+    </nav>
 
 
-        <!-- AUDIO PLAYER -->
+    <!-- MAIN CONTENT -->
+    <main class="container">
 
-        {% if song.audio %}
+        <!-- SONG HEADER -->
+        <section class="song-header">
 
-            <audio controls>
+            <div class="song-type">
+                Song
+            </div>
 
-                <source
-                    src="{{ song.audio.url }}"
-                    type="audio/mpeg"
+            <h1 class="song-title">
+                {{ song.name }}
+            </h1>
+
+            <div class="song-meta">
+
+                <span>
+                    🎤
+                    {{ song.albums.artist.username }}
+                </span>
+
+                <span>
+                    •
+                </span>
+
+                <span>
+                    💿
+                    {{ song.albums.name }}
+                </span>
+
+                {% if song.duration %}
+                    <span>
+                        •
+                        ⏱ {{ song.duration|slice:":5" }}
+                    </span>
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- DETAILS -->
+        <section class="details">
+
+            <h2>
+                About this song
+            </h2>
+
+            {% if song.description %}
+
+                <p class="description">
+                    {{ song.description }}
+                </p>
+
+            {% else %}
+
+                <p class="description">
+                    No description available for this song.
+                </p>
+
+            {% endif %}
+
+
+            <div class="info">
+
+                <div class="info-box">
+
+                    <small>
+                        Artist
+                    </small>
+
+                    <a href="#">
+                        {{ song.albums.artist.username }}
+                    </a>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <small>
+                        Album
+                    </small>
+
+                    <a href="{% url 'album_detail' song.albums.pk %}">
+                        {{ song.albums.name }}
+                    </a>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <small>
+                        Duration
+                    </small>
+
+                    <strong>
+                        {% if song.duration %}
+                            {{ song.duration|slice:":5" }}
+                        {% else %}
+                            Not available
+                        {% endif %}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AUDIO -->
+        <section class="audio-section">
+
+            <h2>
+                🎧 Play Song
+            </h2>
+
+            {% if song.audio %}
+
+                <audio controls>
+                    <source src="{{ song.audio.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+
+            {% else %}
+
+                <p class="description">
+                    Audio file is not available.
+                </p>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- ACTIONS -->
+        <div class="actions">
+
+            {% if user.is_authenticated and user == song.albums.artist %}
+
+                <a
+                    href="{% url 'song_edit' song.pk %}"
+                    class="edit-song-btn"
                 >
+                    ✏️ Edit Song
+                </a>
 
-                Your browser does not support audio.
-
-            </audio>
-
-        {% endif %}
-
-
-
-        <!-- BUTTONS -->
-
-        <div class="buttons">
+            {% endif %}
 
 
             {% if user.is_authenticated %}
 
                 <a
                     href="{% url 'add_to_playlist' song.pk %}"
-                    class="btn playlist-btn"
+                    class="add-song-btn"
                 >
                     ➕ Add to Playlist
                 </a>
@@ -311,30 +522,48 @@
 
             <a
                 href="{% url 'album_detail' song.albums.pk %}"
-                class="btn back-btn"
+                class="back-btn"
             >
                 ← Back to Album
             </a>
 
+        </div>
+
+    </main>
+
+
+    <!-- BOTTOM PLAYER -->
+    <div class="bottom-player">
+
+        <div class="player-song">
+
+            <strong>
+                {{ song.name }}
+            </strong>
+
+            <span>
+                {{ song.albums.artist.username }}
+            </span>
+
+        </div>
+
+
+        <div class="player-audio">
+
+            {% if song.audio %}
+
+                <audio controls>
+                    <source
+                        src="{{ song.audio.url }}"
+                        type="audio/mpeg"
+                    >
+                </audio>
+
+            {% endif %}
 
         </div>
 
     </div>
-
-</main>
-
-
-
-<!-- BOTTOM PLAYER -->
-
-<div class="player">
-
-    🎵
-    &nbsp;&nbsp;
-    {{ song.name }}
-
-</div>
-
 
 </body>
 </html>

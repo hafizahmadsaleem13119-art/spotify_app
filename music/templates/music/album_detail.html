@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>{{ album.name }} - Spotify</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -137,10 +141,29 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 15px;
+            margin-right: 10px;
         }
 
         .add-song-btn:hover {
             background: #1ed760;
+            transform: scale(1.03);
+        }
+
+        .edit-album-btn {
+            display: inline-block;
+            background: #282828;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        .edit-album-btn:hover {
+            background: #3a3a3a;
+            color: #1db954;
             transform: scale(1.03);
         }
 
@@ -203,7 +226,9 @@
         .back-btn:hover {
             color: #1db954;
         }
+
     </style>
+
 </head>
 
 <body>
@@ -226,7 +251,10 @@
                 Profile
             </a>
 
-            <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+            <form method="POST"
+                  action="{% url 'logout' %}"
+                  style="display: inline;">
+
                 {% csrf_token %}
 
                 <button type="submit" class="logout-link">
@@ -298,11 +326,23 @@
         </div>
 
 
-        <!-- Artist Action -->
+        <!-- Artist Actions -->
 
-        {% if user.is_authenticated and user.profile.role == "artist" %}
+        {% if user.is_authenticated and user == album.artist %}
 
             <div class="actions">
+
+                <!-- Edit Album -->
+
+                <a
+                    href="{% url 'album_edit' album.pk %}"
+                    class="edit-album-btn"
+                >
+                    ✏️ Edit Album
+                </a>
+
+
+                <!-- Add Song -->
 
                 <a
                     href="{% url 'add_song' %}"
@@ -373,4 +413,5 @@
     </div>
 
 </body>
+
 </html>
